@@ -18,7 +18,7 @@ interface Props {
 
 const BoardList = ({ orgId, query }: Props) => {
 
-    const data = useQuery(api.boards.get, { orgId })
+    const data = useQuery(api.boards.get, { orgId, ...query })
 
     if (data === undefined) {
         return (
@@ -68,7 +68,7 @@ const BoardList = ({ orgId, query }: Props) => {
                 {/* CREATE NEW BOARD BUTTON */}
                 <NewBoardButton orgId={orgId}/>
                {data?.map((board) => (
-                <BoardCard key={board._id} id={board._id} title={board.title} imageUrl={board.imageUrl} authorId={board.authorId} authorName={board.authorName} createdAt={board._creationTime} orgId={board.orgId} isFavorite={false}/>
+                <BoardCard key={board._id} id={board._id} title={board.title} imageUrl={board.imageUrl} authorId={board.authorId} authorName={board.authorName} createdAt={board._creationTime} orgId={board.orgId} isFavorite={board.isFavorite}/>
                ))}
             </div>
         </div>
