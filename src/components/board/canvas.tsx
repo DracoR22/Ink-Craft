@@ -1,5 +1,6 @@
 'use client'
 
+import { useQuery } from "convex/react"
 import Info from "./info"
 import Participants from "./participants"
 import Toolbar from "./toolbar"
@@ -9,9 +10,10 @@ interface Props {
 }
 
 const Canvas = ({ boardId }: Props) => {
+
     return (
         <main className="h-full w-full relative bg-white touch-none">
-           <Info/>
+           <Info boardId={boardId}/>
            <Participants/>
            <Toolbar/>
         </main>
