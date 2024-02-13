@@ -6,6 +6,9 @@ import { LayerType } from "@/types/canvas"
 import Rectangle from "./layer-rectangle"
 import { Ellipse } from "./layer-ellipse"
 import Text from "./selection-text"
+import { Note } from "./selection-note"
+import { Path } from "./selection-path"
+import { colorToCss } from "@/lib/utils"
 
 interface Props {
     id: string
@@ -22,6 +25,15 @@ const LayerPreview = memo(({ id, onLayerPointerDown, selectionColor }: Props) =>
     }
 
     switch (layer.type) {
+        case LayerType.Path:
+         return (
+          <Path key={id} points={layer.points} onPointerDown={(e) => onLayerPointerDown(e, id)}
+            x={layer.x} y={layer.y} fill={layer.fill ? colorToCss(layer.fill) : "#000"} stroke={selectionColor}/>
+          )
+        case LayerType.Note:
+            return (
+                <Note id={id} layer={layer} onPointerDown={onLayerPointerDown} selectionColor={selectionColor}/>
+            )
         case LayerType.Text: 
             return (
                 <Text id={id} layer={layer} onPointerDown={onLayerPointerDown} selectionColor={selectionColor}/>
