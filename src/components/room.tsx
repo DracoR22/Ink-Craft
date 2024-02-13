@@ -3,6 +3,9 @@
 import { ReactNode } from "react"
 import { RoomProvider } from "../../liveblocks.config"
 import { ClientSideSuspense } from "@liveblocks/react";
+import { Loading } from "./board/loading";
+import { LiveList, LiveMap, LiveObject } from "@liveblocks/client";
+import { Layer } from "@/types/canvas";
 
 interface Props {
     children: ReactNode;
@@ -12,8 +15,12 @@ interface Props {
 
 const Room = ({ children, roomId, fallback }: Props) => {
     return (
-        <RoomProvider id={roomId} initialPresence={{}}>
-            <ClientSideSuspense fallback={<div>loading...</div>}>
+        <RoomProvider id={roomId} initialPresence={{ cursor: null, selection: [] }}
+         initialStorage={{
+            layers: new LiveMap<string, LiveObject<Layer>>(),
+            layerIds: new LiveList()
+         }}>
+            <ClientSideSuspense fallback={<Loading/>}>
                 {() => children}
             </ClientSideSuspense>
         </RoomProvider>
